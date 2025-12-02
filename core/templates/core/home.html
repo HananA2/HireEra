@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}HireEra – Find Your Job{% endblock %}
+
+{% block navbar %}
+    {% include "core/navbar.html" %}
+{% endblock %}
+
+{% block content %}
+
+<div class="text-center mt-5">
+
+    <!-- Search Bar Section -->
+<div class="search-box d-flex align-items-center">
+
+    <!-- Keyword Section -->
+    <div class="search-section d-flex align-items-center">
+        <i class="fa-solid fa-magnifying-glass me-2"></i>
+        <input type="text" name="keyword" class="search-input" placeholder="Job title, keywords, or company">
+    </div>
+
+    <!-- Divider -->
+    <div class="search-divider"></div>
+
+    <!-- Location Section -->
+    <div class="search-section d-flex align-items-center">
+        <i class="fa-solid fa-location-dot me-2"></i>
+        <input type="text" name="location" class="search-input" placeholder="City, state, zip code, or remote">
+    </div>
+
+    <!-- Clear Button -->
+    <button type="button" class="clear-btn">
+        <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <!-- Search Button -->
+    <button type="submit" class="btn btn-primary search-btn">
+        Find jobs
+    </button>
+
+</div>
+
+
+    <!-- Logo + Title -->
+    <h1 class="fw-bold display-1 text-primary mt-5 mb-0">
+        HireEra
+    </h1>
+    
+    <p class="fs-5 fw-semibold text-dark mb-0">
+        Your next job starts here
+    </p>
+
+    <p class="fs-8 fw-light text-dark">
+        Create an account or sign in to see your personalized job recommendations.
+    </p>
+
+    <!-- Get Started Button -->
+    <a href="/seeker/login/" class="btn btn-primary btn-lg mt-3 px-5 py-1">
+        Get Started →
+    </a>
+
+</div>
+
+{% endblock %}

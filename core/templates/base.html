@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}HireEra{% endblock %}</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head> 
+<body>
+
+    {% block navbar %}{% endblock %}
+    
+    <div class="container mt-4">
+        {% block content %}{% endblock %}
+    </div>
+
+    {% block footer %}
+    <footer class="footer text-center text-dark">
+        <div class="footer-line"></div>
+        <p class="mt-3 mb-3">© 2025 HireEra — All rights reserved.</p>
+    </footer>
+    {% endblock %}
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'core/js/main.js' %}"></script>
+</body>
+</html>
