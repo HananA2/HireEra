@@ -1,3 +1,9 @@
 from django.urls import path
+from . import views
 
-urlpatterns = []
+app_name = "applications"
+
+urlpatterns = [
+    path("apply/<int:job_id>/", views.apply, name="apply"),
+    path("success/", views.success, name="success"),
+]

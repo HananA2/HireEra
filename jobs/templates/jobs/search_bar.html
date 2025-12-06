@@ -1,0 +1,33 @@
+
+<form method="GET" action="{% url 'jobs:search' %}">
+    <div class="search-box d-flex align-items-center">
+
+        <!-- Keyword Section -->
+        <div class="search-section d-flex align-items-center">
+            <i class="fa-solid fa-magnifying-glass me-3"></i>
+            <input type="text" name="q" class="search-input" placeholder="Job title, keywords, or company"
+            value="{{ request.GET.q }}">
+        </div>
+
+        <!-- Divider -->
+        <div class="search-divider"></div>
+
+        <!-- Location Section -->
+        <div class="search-section d-flex align-items-center">
+            <i class="fa-solid fa-location-arrow me-3"></i>
+            <input type="text" name="loc" class="search-input" placeholder="City, state, zip code, or remote"
+            value="{{ request.GET.loc }}">
+        </div>
+
+        <!-- Clear Button -->
+        <button type="button" class="clear-btn" onclick="clearSearch()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <!-- Search Button -->
+        <button type="submit" class="btn btn-primary search-btn">
+            Find jobs
+        </button>
+
+    </div>
+</form>

@@ -11,23 +11,29 @@
         <h3 class="fw-bold text-center text-primary">Welcome Back</h3>
         <p class="text-center text-muted mb-4">Sign in to continue your job search</p>
 
-        <form method="POST"
-            action="{% url 'seeker:signin' %}{% if 'next' in request.GET %}?next={{ request.GET.next }}{% endif %}">
+        <!-- Show Django messages -->
+        <!-- {% if messages %}
+            {% for msg in messages %}
+                <div class="alert alert-danger py-2">{{ msg }}</div>
+            {% endfor %}
+        {% endif %} -->
+
+        <form method="POST" action="{% url 'seeker:signin' %}">
             {% csrf_token %}
 
             <!-- Username -->
             <label class="fw-semibold mb-1">Username</label>
             <input type="text"
                    name="username"
-                   class="form-control"
+                   class="form-control {% if form.errors %}is-invalid{% endif %}"
                    placeholder="Enter username"
-                   style="{% if error %}border: 1px solid #b71c1c;{% endif %}"
+                   value="{{ form.data.username|default:'' }}"
                    required>
 
-            {% if error %}
-            <small class="d-flex align-items-center mt-1" style="color: #b71c1c;">
+            {% if form.errors.username %}
+            <small class="text-danger d-flex align-items-center mt-1">
                 <i class="fa-solid fa-circle-exclamation me-1"></i>
-                Invalid username
+                {{ form.errors.username.0 }}
             </small>
             {% endif %}
 
@@ -35,23 +41,29 @@
             <label class="fw-semibold mt-4 mb-1">Password</label>
             <input type="password"
                    name="password"
-                   class="form-control"
+                   class="form-control {% if form.errors %}is-invalid{% endif %}"
                    placeholder="Enter password"
-                   style="{% if error %}border: 1px solid #b71c1c;{% endif %}"
                    required>
 
-            {% if error %}
-            <small class="d-flex align-items-center mt-1" style="color: #b71c1c;">
+            {% if form.errors.password %}
+            <small class="text-danger d-flex align-items-center mt-1">
                 <i class="fa-solid fa-circle-exclamation me-1"></i>
-                Invalid password
+                {{ form.errors.password.0 }}
             </small>
             {% endif %}
 
-            <!-- Submit button -->
+            <!-- Non-field errors (from clean method) -->
+            {% if form.non_field_errors %}
+            <small class="text-danger d-flex align-items-center mt-2">
+                <i class="fa-solid fa-circle-exclamation me-1"></i>
+                {{ form.non_field_errors.0 }}
+            </small>
+            {% endif %}
+
+            <!-- Submit -->
             <button type="submit" class="btn btn-primary w-100 py-2 fw-bold mt-4">
                 Sign In →
             </button>
-
         </form>
 
         <p class="text-center mt-3">

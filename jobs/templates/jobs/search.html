@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{% static 'jobs/css/jobs.css' %}">
+{% endblock %}
+
+
+{% block title %}HireEra – Find Your Job{% endblock %}
+
+{% block navbar %}
+    {% include "core/navbar.html" %}
+{% endblock %}
+
+{% block content %}
+
+<!-- SEARCH FORM -->
+<form method="GET" action="{% url 'jobs:search' %}" class="mt-4">
+    {% include "jobs/search_bar.html" %}
+</form>
+
+<!-- Filter -->
+<form method="GET" action="{% url 'jobs:search' %}" class="mt-4">
+    
+    <!-- FLAT FILTERS -->
+    <div class="filters d-flex gap-3 mt-4">
+
+        <!-- Job Type -->
+        <select name="job_type" class="form-select filter-select">
+            <option value="">Job Type</option>
+            <option value="full-time" {% if request.GET.job_type == 'full-time' %}selected{% endif %}>Full-time</option>
+            <option value="part-time" {% if request.GET.job_type == 'part-time' %}selected{% endif %}>Part-time</option>
+            <option value="remote" {% if request.GET.job_type == 'remote' %}selected{% endif %}>Remote</option>
+        </select>
+
+        <!-- Location Filter -->
+        <select name="location" class="form-select filter-select">
+            <option value="">Location</option>
+            <option value="Riyadh" {% if request.GET.location == 'Riyadh' %}selected{% endif %}>Riyadh</option>
+            <option value="Jeddah" {% if request.GET.location == 'Jeddah' %}selected{% endif %}>Jeddah</option>
+        </select>
+
+        <!-- Date Posted -->
+        <select name="date_posted" class="form-select filter-select">
+            <option value="">Date Posted</option>
+            <option value="1" {% if request.GET.date_posted == '1' %}selected{% endif %}>Last 24 hours</option>
+            <option value="3" {% if request.GET.date_posted == '3' %}selected{% endif %}>Last 3 days</option>
+            <option value="7" {% if request.GET.date_posted == '7' %}selected{% endif %}>Last 7 days</option>
+        </select>
+
+        <button type="submit" class="btn btn-primary filter-btn" >Apply</button>
+    </div>
+    <!-- Divider -->
+    <div class="border-bottom mt-4 mb-3"></div>
+</form>
+
+<!-- Job Cards-->
+<div class="container-fluid mt-4 px-5">
+    <div class="row search-panels">
+
+        {% if not jobs %}
+        <!-- NO RESULTS MESSAGE -->
+        <div class="no-results-wrapper text-start mt-5 px-5">
+
+            <p class="fs-5">
+                The search 
+                <strong>{{ request.GET.q|default:"" }}</strong>
+                {% if request.GET.loc %}
+                    jobs in <strong>{{ request.GET.loc }}</strong>
+                {% endif %}
+                did not match any jobs.
+            </p>
+
+            <p class="fw-bold mt-4">Search suggestions:</p>
+
+            <ul class="text-muted">
+                <li>Try more general keywords</li>
+                <li>Check your spelling</li>
+                <li>Use a different location</li>
+            </ul>
+
+        </div>
+
+        {% else %}
+
+        <!-- LEFT LIST -->
+        <div class="col-5 overflow-auto pe-4 job-list-panel">
+
+            <!-- Header -->
+            <div class="d-flex justify-content-between align-items-center mb-0 section-header">
+                <p class="jobs-left">Jobs for you</p>
+                <p class="jobs-right">{{ jobs.count }} jobs found</p>
+            </div>
+
+            <!-- Job Cards Loop -->
+            {% for job in jobs %}
+            <div class="card mb-3 job-card {% if forloop.first %}active{% endif %}"
+                data-id="{{ job.id }}"
+                data-title="{{ job.title }}"
+                data-company="{{ job.company }}"
+                data-location="{{ job.location }}"
+                data-salary="{{ job.salary }}"
+                data-type="{{ job.get_job_type_display }}"
+                data-description="{{ job.description|escapejs }}">
+
+                <div class="card-body">
+                    <i class="fa-regular fa-bookmark bookmark-icon"
+                    onclick="saveJob(event, {{ job.id }}, this)"></i>
+              
+
+                    <h5 class="card-title fw-bold">{{ job.title }}</h5>
+                    <p class="mb-1">{{ job.company }}</p>
+                    <p class="text-muted mb-2">{{ job.location }}</p>
+
+                    {% if job.salary %}
+                        <span class="badge job-salary-badge">{{ job.salary }}</span>
+                    {% endif %}
+
+                    <span class="badge job-type-badge">
+                        {{ job.get_job_type_display }}
+                    </span>
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- RIGHT DETAILS -->
+        <div class="col-7 pe-4 job-details-panel">
+            <div class="details-card card">
+
+                <div class="details-header p-4">
+
+                    <!-- BACK BUTTON (mobile only) -->
+                    <button class="back-btn d-lg-none" onclick="showList()">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </button>
+
+                    <h4 id="detail-title" class="fw-bold mb-2"></h4>
+                    <p id="detail-company" class="text-muted mb-1"></p>
+                    <p id="detail-header-location" class="text-muted mb-3"></p>
+
+                    <div class="detail-actions mb-2">
+
+                        <a id="detail-apply-btn" class="btn btn-primary me-2 apply-btn">
+                            Apply now
+                        </a>                        
+
+                        <button id="detail-save-btn" class="action-btn"
+                            onclick="saveJobFromDetails(event, this)">
+                            <i class="fa-regular fa-bookmark"></i>
+                        </button>
+
+
+                        <button class="action-btn"><i class="fa-regular fa-circle-xmark"></i></button>
+                        <button class="action-btn"><i class="fa-solid fa-link"></i></button>
+                    </div>
+                </div>
+
+                <div class="section-divider"></div>
+
+                <div class="details-body p-4">
+                    <h5 class="section-title">
+                        <i class="fa-solid fa-briefcase me-2"></i> Job details
+                    </h5>
+                    <p class="text-muted small mb-3">Information about this role.</p>
+
+                    <span id="detail-salary" class="badge job-salary-badge mb-3 d-inline-block"></span>
+                    <span id="detail-type" class="badge job-type-badge mb-3 d-inline-block"></span>
+
+                    <div class="section-divider"></div>
+
+                    <h5 class="section-title mt-4">
+                        <i class="fa-solid fa-location-dot me-2"></i> Location
+                    </h5>
+                    <p id="detail-location" class="text-muted mb-3"></p>
+
+                    <div class="section-divider"></div>
+
+                    <h5 class="section-title mt-4">Full job description</h5>
+                    <p id="detail-description" class="mt-2"></p>
+                </div>
+
+            </div>
+        </div>
+
+        {% endif %}
+
+    </div>
+</div>
+
+<script>const SAVED_JOBS = {{ saved_jobs|safe }};</script>
+
+<script src="{% static 'jobs/js/jobs.js' %}"></script>
+
+{% endblock %}

@@ -1,0 +1,15 @@
+.is-invalid {
+    border-color: #dc3545 !important;
+    padding-right: 40px;
+}
+
+.invalid-feedback {
+    color: #dc3545;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.is-invalid + .invalid-feedback::before {
+    content: "⚠ ";
+    font-weight: bold;
+}

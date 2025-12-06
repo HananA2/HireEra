@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{% static 'seeker/css/profile.css' %}">
+{% endblock %}
+
+{% block navbar %}
+    {% include "core/navbar.html" %}
+{% endblock %}
+
+{% block content %}
+
+<div class="container profile-container mt-5">
+
+    <div class="profile-card shadow-sm p-4">
+
+        <div class="d-flex justify-content-between align-items-center">
+
+            <!-- LEFT TEXT -->
+            <div>
+                <h2 class="fw-bold">{{ user.first_name }} {{ user.last_name }}</h2>
+
+                <div class="profile-item mt-4">
+                    <i class="fa-solid fa-envelope icon"></i>
+                    <span>{{ user.email }}</span>
+                </div>
+
+                {% if user.seekerprofile.phone %}
+                <div class="profile-item">
+                    <i class="fa-solid fa-phone icon"></i>
+                    <span>{{ user.seekerprofile.phone }}</span>
+                </div>
+                {% endif %}
+
+                {% if user.seekerprofile.location %}
+                <div class="profile-item">
+                    <i class="fa-solid fa-location-dot icon"></i>
+                    <span>{{ user.seekerprofile.location }}</span>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- RIGHT AVATAR -->
+            <div class="avatar-circle">
+                {{ user.first_name|first|upper }}{{ user.last_name|first|upper }}
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

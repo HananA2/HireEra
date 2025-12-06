@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_styles %}
+<style>
+    .tabs-row {
+        display: flex;
+        gap: 40px;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 25px;
+        padding-bottom: 10px;
+    }
+    .tab-item {
+        font-size: 16px;
+        cursor: pointer;
+        color: #444;
+        position: relative;
+        padding-bottom: 6px;
+        text-decoration: none;
+    }
+    .tab-active {
+        font-weight: bold;
+        color: #000;
+    }
+    .tab-active::after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 3px;
+        background: #000;
+        bottom: -2px;
+        left: 0;
+        border-radius: 2px;
+    }
+
+    .saved-card {
+        border-radius: 14px;
+        padding: 18px;
+        border: 1px solid #eee;
+        transition: 0.2s;
+    }
+    .saved-card:hover {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .save-icon-btn {
+        background: #f3f3f3;
+        border: none;
+        border-radius: 12px;
+        padding: 8px 14px;
+        font-size: 18px;
+        cursor: pointer;
+    }
+
+    .no-saved-wrapper {
+        text-align: center;
+        margin-top: 80px;
+    }
+    .no-saved-img {
+        width: 180px;
+        opacity: 0.9;
+        margin-bottom: 20px;
+    }
+</style>
+{% endblock %}
+
+{% block navbar %}
+    {% include "core/navbar.html" %}
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <!-- PAGE TITLE -->
+    <h2 class="fw-bold mb-4">My jobs</h2>
+
+    <!-- TABS -->
+    <div class="tabs-row">
+
+        <a href="?tab=saved"
+           class="tab-item {% if active_tab == 'saved' %}tab-active{% endif %}">
+            Saved
+        </a>
+    
+        <a href="?tab=applied"
+           class="tab-item {% if active_tab == 'applied' %}tab-active{% endif %}">
+            Applied
+        </a>
+    
+        <div class="tab-item">Interviews</div>
+        <div class="tab-item">Archived</div>
+    
+    </div>  
+
+{% comment %} -------------------- SAVED TAB -------------------- {% endcomment %}
+{% if active_tab == 'saved' %}
+
+    {% if saved %}
+        {% for item in saved %}
+            <div class="saved-card mb-3">
+
+                <div class="d-flex justify-content-between align-items-start">
+
+                    <div>
+                        <h5 class="fw-bold mb-1">{{ item.job.title }}</h5>
+                        <p class="text-muted mb-1">{{ item.job.company }} — {{ item.job.location }}</p>
+                        <p class="text-muted small">
+                            Saved on {{ item.saved_at|date:"D" }}
+                        </p>
+
+                        <a href="/applications/apply/{{ item.job.id }}/" class="btn btn-primary btn-sm mt-2">
+                            Apply now
+                        </a>
+                    </div>
+
+                    <!-- REMOVE SAVED JOB -->
+                    <button class="save-icon-btn" onclick="removeSavedJob({{ item.job.id }}, this)">
+                        <i class="fa-solid fa-bookmark" style="color: #0d6efd;"></i>
+                    </button>
+
+                </div>
+
+            </div>
+        {% endfor %}
+
+    {% else %}
+        <div class="no-saved-wrapper">
+            <img src="{% static 'jobs/img/empty_saved.png' %}" class="no-saved-img">
+            <h5 class="fw-bold">No jobs saved yet</h5>
+            <p class="text-muted">Jobs you save appear here.</p>
+
+            <a href="/jobs/search" class="btn btn-primary mt-3">Find jobs →</a>
+        </div>
+    {% endif %}
+
+{% endif %}
+
+
+
+{% comment %} -------------------- APPLIED TAB -------------------- {% endcomment %}
+{% if active_tab == 'applied' %}
+
+    {% if applied %}
+        {% for app in applied %}
+            <div class="saved-card mb-3">
+
+                <div class="d-flex justify-content-between align-items-start">
+
+                    <div>
+                        <h5 class="fw-bold mb-1">{{ app.job.title }}</h5>
+                        <p class="text-muted mb-1">{{ app.job.company }} — {{ app.job.location }}</p>
+
+                        <p class="text-muted small">
+                            Applied on: {{ app.submitted_at|date:"M d, Y" }}
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+        {% endfor %}
+
+    {% else %}
+        <div class="no-saved-wrapper">
+            <img src="{% static 'jobs/img/empty_saved.png' %}" class="no-saved-img">
+            <h5 class="fw-bold">No applications yet</h5>
+            <p class="text-muted">Jobs you apply for appear here.</p>
+
+            <a href="/jobs/search" class="btn btn-primary mt-3">Find jobs →</a>
+        </div>
+    {% endif %}
+
+{% endif %}
+
+
+</div>
+
+<script>
+function removeSavedJob(jobId, btn) {
+    fetch(`/seeker/save/${jobId}/`)
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === "removed") {
+                btn.closest(".saved-card").remove();
+            }
+        });
+}
+</script>
+
+{% endblock %}
