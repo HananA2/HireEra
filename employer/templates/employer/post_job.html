@@ -1,0 +1,127 @@
+{% extends "employer/base_employer.html" %}
+
+{% block topbar_title %}Post a job{% endblock %}
+
+{% block employer_content %}
+
+<div class="post-job-wrapper">
+
+  <section class="post-job-header">
+    <h1>Add job basics</h1>
+    <p class="post-job-header-sub">
+      Start with the core details of your job posting. You can edit this information later.
+    </p>
+  </section>
+
+  <div class="post-job-language">
+    Job post will be in <span class="post-job-lang-main">English</span> in
+    <span class="post-job-lang-main">Saudi Arabia</span>.
+  </div>
+
+  <hr class="post-job-divider" />
+
+  <section class="post-job-form-card">
+    <form method="post" action="{% url 'employer:post_job' %}">
+      {% csrf_token %}
+
+      <div class="pj-field">
+        <label class="pj-label">
+          Job title <span class="pj-required">*</span>
+        </label>
+        <input
+          type="text"
+          name="title"
+          class="pj-input"
+          placeholder="e.g. Frontend Developer"
+          required
+        />
+      </div>
+
+      <div class="pj-field">
+        <label class="pj-label">
+          Job location type <span class="pj-required">*</span>
+        </label>
+        <select name="location_type" class="pj-select" required>
+          <option value="full_time">Full-Time</option>
+          <option value="part_time">Part-Time</option>
+          <option value="contract">Contract</option>
+          <option value="remote">Remote</option>
+          <option value="internship">Internship</option>
+        </select>
+      </div>
+
+      <div class="pj-field">
+        <label class="pj-label">
+          What is the job location? <span class="pj-required">*</span>
+        </label>
+        <input
+          type="text"
+          name="location"
+          class="pj-input"
+          placeholder="City, country or ZIP"
+          required
+        />
+        <p class="pj-help">
+          Enter the primary location where the employee will work.
+        </p>
+      </div>
+
+      <div class="pj-field">
+        <label class="pj-label">
+          Salary range (optional)
+        </label>
+        <div class="pj-inline-row">
+          <div class="pj-field">
+            <input
+              type="number"
+              name="salary_from"
+              class="pj-input"
+              placeholder="From"
+              min="0"
+            />
+          </div>
+          <div class="pj-field">
+            <input
+              type="number"
+              name="salary_to"
+              class="pj-input"
+              placeholder="To"
+              min="0"
+            />
+          </div>
+          <div class="pj-field" style="max-width:120px;">
+            <select name="currency" class="pj-select">
+              <option value="SAR">SAR</option>
+              <option value="USD">USD</option>
+              <option value="EUR">EUR</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="pj-field">
+        <label class="pj-label">
+          Job description
+        </label>
+        <textarea
+          name="description"
+          class="pj-textarea"
+          placeholder="Describe the role, key responsibilities, required skills and benefits."
+        ></textarea>
+      </div>
+
+      <div class="post-job-actions">
+        <button type="button" class="pj-btn-secondary">
+          Save as draft
+        </button>
+        <button type="submit" class="pj-btn-primary">
+          Continue →
+        </button>
+      </div>
+
+    </form>
+  </section>
+
+</div>
+
+{% endblock %}

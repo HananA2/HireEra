@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block container_class %}full-width{% endblock %}
+
+{% block content %}
+<div style="display:flex;min-height:calc(100vh - 70px);background:#f5f7fb;font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
+
+  <!-- Sidebar -->
+  <aside style="width:240px;background:#111827;color:#e5e7eb;padding:24px 16px;display:flex;flex-direction:column;gap:24px;">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <div style="width:32px;height:32px;border-radius:999px;background:#2563eb;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px;">H</div>
+      <div>
+        <div style="font-size:14px;opacity:.85;">Hirera</div>
+        <div style="font-size:12px;opacity:.6;">For Employers</div>
+      </div>
+    </div>
+
+    <nav style="display:flex;flex-direction:column;gap:4px;font-size:14px;">
+      <a href="/employer/dashboard/" style="padding:8px 10px;border-radius:8px;text-decoration:none;color:inherit;opacity:.9;">Dashboard</a>
+      <a href="/employer/jobs/" style="padding:8px 10px;border-radius:8px;text-decoration:none;color:inherit;opacity:.9;">Jobs</a>
+      <a href="/employer/candidates/" style="padding:8px 10px;border-radius:8px;text-decoration:none;color:inherit;opacity:.9;">Candidates</a>
+      <a href="/employer/settings/" style="padding:8px 10px;border-radius:8px;background:#1f2937;text-decoration:none;color:inherit;">Settings</a>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main style="flex:1;padding:32px 40px;max-width:960px;margin:0 auto;">
+    <h1 style="font-size:26px;font-weight:700;margin-bottom:6px;">Your employer account</h1>
+    <p style="font-size:14px;color:#4b5563;margin-bottom:24px;">
+      Manage your personal information, organization details and communication preferences.
+    </p>
+
+    <!-- Personal Info -->
+    <section style="background:#fff;border-radius:18px;padding:24px 26px;margin-bottom:24px;box-shadow:0 12px 24px rgba(15,23,42,.05);">
+      <h2 style="font-size:16px;font-weight:600;margin-bottom:16px;">Personal info</h2>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;font-size:14px;">
+        <div>
+          <div style="font-size:12px;color:#6b7280;margin-bottom:2px;">Name</div>
+          <div style="padding:10px 12px;border-radius:10px;border:1px solid #e5e7eb;background:#f9fafb;">
+            {{ request.user.get_full_name|default:"Hanan AD" }}
+          </div>
+        </div>
+        <div>
+          <div style="font-size:12px;color:#6b7280;margin-bottom:2px;">Email</div>
+          <div style="padding:10px 12px;border-radius:10px;border:1px solid #e5e7eb;background:#f9fafb;">
+            {{ request.user.email|default:"example@company.com" }}
+          </div>
+        </div>
+        <div>
+          <div style="font-size:12px;color:#6b7280;margin-bottom:2px;">Phone</div>
+          <div style="padding:10px 12px;border-radius:10px;border:1px solid #e5e7eb;background:#f9fafb;">
+            +966•••••••••
+          </div>
+        </div>
+        <div>
+          <div style="font-size:12px;color:#6b7280;margin-bottom:2px;">Language</div>
+          <div style="padding:10px 12px;border-radius:10px;border:1px solid #e5e7eb;background:#f9fafb;">
+            English
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Organization -->
+    <section style="background:#fff;border-radius:18px;padding:24px 26px;margin-bottom:24px;box-shadow:0 12px 24px rgba(15,23,42,.05);">
+      <h2 style="font-size:16px;font-weight:600;margin-bottom:16px;">Organization</h2>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;font-size:14px;">
+        <div>
+          <div style="font-size:12px;color:#6b7280;margin-bottom:2px;">Company name</div>
+          <div style="padding:10px 12px;border-radius:10px;border:1px solid #e5e7eb;background:#f9fafb;">
+            {{ employer_profile.company_name|default:"Your company" }}
+          </div>
+        </div>
+        <div>
+          <div style="font-size:12px;color:#6b7280;margin-bottom:2px;">Website</div>
+          <div style="padding:10px 12px;border-radius:10px;border:1px solid #e5e7eb;background:#f9fafb;">
+            {{ employer_profile.website|default:"https://example.com" }}
+          </div>
+        </div>
+        <div>
+          <div style="font-size:12px;color:#6b7280;margin-bottom:2px;">Location</div>
+          <div style="padding:10px 12px;border-radius:10px;border:1px solid #e5e7eb;background:#f9fafb;">
+            {{ employer_profile.location|default:"Riyadh, Saudi Arabia" }}
+          </div>
+        </div>
+        <div>
+          <div style="font-size:12px;color:#6b7280;margin-bottom:2px;">Role</div>
+          <div style="padding:10px 12px;border-radius:10px;border:1px solid #e5e7eb;background:#f9fafb;">
+            Hiring manager
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Communications -->
+    <section style="background:#fff;border-radius:18px;padding:24px 26px;box-shadow:0 12px 24px rgba(15,23,42,.05);">
+      <h2 style="font-size:16px;font-weight:600;margin-bottom:16px;">Communications</h2>
+      <p style="font-size:13px;color:#4b5563;margin-bottom:12px;">
+        Choose how you’d like to receive notifications about applicants and account activity.
+      </p>
+      <div style="display:flex;flex-direction:column;gap:10px;font-size:14px;">
+        <label style="display:flex;align-items:center;gap:8px;">
+          <input type="checkbox" checked style="width:16px;height:16px;">
+          <span>Email updates about new applicants</span>
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;">
+          <input type="checkbox" style="width:16px;height:16px;">
+          <span>Tips to improve job performance</span>
+        </label>
+      </div>
+    </section>
+  </main>
+
+</div>
+{% endblock %}
