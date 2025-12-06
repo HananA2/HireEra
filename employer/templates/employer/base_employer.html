@@ -1,0 +1,778 @@
+{% extends "base.html" %}
+
+{% block container_class %}full-width{% endblock %}
+
+{% block content %}
+
+<style>
+/* ===============================
+      GLOBAL EMPLOYER LAYOUT
+   =============================== */
+.full-width {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.employer-layout {
+    width: 100%;
+    display: flex;
+    min-height: calc(100vh - 70px);
+    background: #f5f7fb;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* ===============================
+      SIDEBAR
+   =============================== */
+.employer-sidebar {
+    width: 240px;
+    background: #111827;
+    color: #e5e7eb;
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    background: #2563eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.sidebar-primary-btn {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 999px;
+    border: none;
+    background: #2563eb;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: left;
+}
+
+.sidebar-primary-btn:hover {
+    background: #1e4fcc;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 14px;
+}
+
+.sidebar-nav .section-title {
+    margin-top: 8px;
+    margin-bottom: 4px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    opacity: .6;
+}
+
+.nav-item {
+    padding: 8px 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    opacity: .9;
+}
+
+.nav-item:hover {
+    background: #1f2937;
+}
+
+.nav-item.active {
+    background: #1f2937;
+}
+
+.nav-badge {
+    font-size: 11px;
+    background: #2563eb;
+    padding: 2px 6px;
+    border-radius: 999px;
+}
+
+.sidebar-footer {
+    margin-top: auto;
+    font-size: 12px;
+    opacity: .6;
+}
+
+/* ===============================
+      TOP NAVBAR
+   =============================== */
+.employer-main {
+    flex: 1;
+    padding: 0 40px 32px 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+.employer-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0 16px 0;
+    border-bottom: 1px solid rgba(15, 23, 42, .06);
+    margin-bottom: 24px;
+}
+
+.topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.separator {
+    color: #d1d5db;
+}
+
+.topbar-page-title {
+    font-weight: 600;
+    color: #111827;
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.topbar-link {
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    color: #4b5563;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.topbar-link:hover {
+    color: #111827;
+}
+
+/* ===============================
+      USER PILL
+   =============================== */
+.user-pill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 4px 10px 4px 4px;
+    border-radius: 999px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+}
+
+.user-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.user-role {
+    font-size: 11px;
+    color: #6b7280;
+}
+
+/* ===============================
+      MAIN CONTENT + DASHBOARD
+   =============================== */
+.employer-main-content {
+    flex: 1;
+}
+
+.dashboard-intro {
+    margin-bottom: 28px;
+}
+
+.dashboard-intro h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.dashboard-intro p {
+    font-size: 14px;
+    color: #4b5563;
+}
+
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.dashboard-card {
+    background: #fff;
+    border-radius: 18px;
+    padding: 16px 18px;
+    box-shadow: 0 12px 24px rgba(15, 23, 42, .06);
+}
+
+.dashboard-card-label {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.dashboard-card-value {
+    font-size: 26px;
+    font-weight: 700;
+    margin-top: 4px;
+}
+
+/* ===============================
+      RECENT JOBS TABLE
+   =============================== */
+.table-container {
+    background: #fff;
+    border-radius: 18px;
+    padding: 20px 20px 16px;
+    box-shadow: 0 12px 24px rgba(15, 23, 42, .04);
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.table-header h2 {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.table-header a {
+    font-size: 12px;
+    color: #2563eb;
+    text-decoration: none;
+}
+
+.table-header a:hover {
+    text-decoration: underline;
+}
+
+table.jobs-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.jobs-table thead tr {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.jobs-table th {
+    padding: 8px 4px;
+    text-align: left;
+}
+
+.jobs-table td {
+    padding: 8px 4px;
+}
+
+.jobs-table tbody tr {
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.status-badge {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 999px;
+}
+
+.status-active {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.status-draft {
+    background: #fef9c3;
+    color: #854d0e;
+}
+
+.status-closed {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+/* ===============================
+      JOBS PAGE (EMPTY STATE)
+   =============================== */
+
+   .jobs-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+
+.jobs-title-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.jobs-title-row h1 {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.jobs-tabs {
+    display: flex;
+    gap: 8px;
+}
+
+.jobs-tab {
+    border-radius: 999px;
+    padding: 6px 14px;
+    border: none;
+    background: #f3f4f6;
+    font-size: 13px;
+    cursor: pointer;
+    color: #4b5563;
+}
+
+.jobs-tab--active {
+    background: #111827;
+    color: #f9fafb;
+}
+
+.jobs-post-btn {
+    padding: 10px 18px;
+    border-radius: 999px;
+    border: none;
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.jobs-post-btn:hover {
+    background: #1e4fcc;
+}
+
+/* filters row */
+.jobs-filters-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 18px;
+    margin-top: 8px;
+    font-size: 13px;
+}
+
+.jobs-filter-chip {
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid #e5e7eb;
+    background: #ffffff;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #4b5563;
+}
+
+.jobs-filter-chip--primary {
+    border-color: #111827;
+}
+
+.jobs-filter-count {
+    font-weight: 600;
+}
+
+.jobs-results-count {
+    margin-left: auto;
+    color: #6b7280;
+}
+
+/* hero empty state */
+.jobs-hero {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 32px 24px;
+    text-align: center;
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.04);
+    margin-bottom: 24px;
+}
+
+.jobs-hero-illustration {
+    width: 260px;
+    height: 160px;
+    margin: 0 auto 16px;
+    border-radius: 24px;
+    background: radial-gradient(circle at 20% 20%, #f97316, #fbbf24 40%, #f97316 70%, #fb923c 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+/* بس شوية أشكال كذا تحسسك إنها رسمة */
+.jobs-hero-illustration::before {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 10%;
+    width: 80%;
+    height: 40%;
+    border-radius: 999px;
+    background: #f97316;
+    opacity: 0.7;
+}
+
+.jobs-hero-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.jobs-hero-subtitle {
+    font-size: 14px;
+    color: #4b5563;
+    max-width: 520px;
+    margin: 0 auto 16px;
+}
+
+.jobs-hero-btn {
+    padding: 10px 20px;
+    border-radius: 999px;
+    border: none;
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.jobs-hero-btn:hover {
+    background: #1e4fcc;
+}
+
+/* billing card */
+.jobs-billing-card {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 20px 24px 18px;
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.04);
+}
+
+.jobs-billing-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.jobs-billing-links {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.jobs-billing-links a {
+    font-size: 13px;
+    color: #2563eb;
+    text-decoration: none;
+}
+
+.jobs-billing-links a:hover {
+    text-decoration: underline;
+}
+/* ===============================
+      POST JOB PAGE (ADD JOB BASICS)
+   =============================== */
+
+   .post-job-wrapper {
+    max-width: 760px;
+    margin: 0 auto 40px;
+}
+
+.post-job-header {
+    text-align: left;
+    margin-bottom: 24px;
+}
+
+.post-job-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.post-job-header-sub {
+    font-size: 14px;
+    color: #4b5563;
+}
+
+.post-job-language {
+    font-size: 14px;
+    color: #4b5563;
+    margin: 12px 0 24px;
+}
+
+.post-job-language span.post-job-lang-main {
+    font-weight: 600;
+}
+
+.post-job-divider {
+    border: none;
+    border-top: 1px solid #e5e7eb;
+    margin: 24px 0 28px;
+}
+
+/* form card */
+.post-job-form-card {
+    background: transparent;
+}
+
+/* field blocks */
+.pj-field {
+    margin-bottom: 24px;
+}
+
+.pj-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 6px;
+}
+
+.pj-required {
+    color: #dc2626;
+    margin-left: 2px;
+}
+
+.pj-help {
+    font-size: 12px;
+    color: #6b7280;
+    margin-top: 4px;
+}
+
+/* inputs */
+.pj-input,
+.pj-select,
+.pj-textarea {
+    width: 100%;
+    padding: 9px 12px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    font-size: 14px;
+    color: #111827;
+    background: #ffffff;
+}
+
+.pj-input:focus,
+.pj-select:focus,
+.pj-textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 1px #2563eb20;
+}
+
+.pj-textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* inline row (مثلاً من / إلى + العملة) */
+.pj-inline-row {
+    display: flex;
+    gap: 12px;
+}
+
+.pj-inline-row .pj-field {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+/* buttons row */
+.post-job-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 24px;
+}
+
+.pj-btn-secondary {
+    padding: 9px 16px;
+    border-radius: 999px;
+    border: 1px solid #e5e7eb;
+    background: #ffffff;
+    font-size: 14px;
+    color: #374151;
+    cursor: pointer;
+}
+
+.pj-btn-secondary:hover {
+    background: #f9fafb;
+}
+
+.pj-btn-primary {
+    padding: 9px 18px;
+    border-radius: 999px;
+    border: none;
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.pj-btn-primary:hover {
+    background: #1e4fcc;
+}
+.delete-btn {
+    color: #dc2626;
+    font-size: 13px;
+    text-decoration: none;
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+.delete-btn:hover {
+    background: #fee2e2;
+}
+</style>
+
+<div class="employer-layout">
+
+  <!-- Sidebar -->
+  <aside class="employer-sidebar">
+    <div class="sidebar-header">
+      <div class="logo-circle">H</div>
+      <div>
+        <div style="font-size:14px;opacity:.85;">Hirera</div>
+        <div style="font-size:12px;opacity:.6;">For Employers</div>
+      </div>
+    </div>
+
+    <a href="{% url 'employer:post_job' %}">
+      <button class="sidebar-primary-btn">
+        + Create new
+      </button>
+    </a>
+
+    <nav class="sidebar-nav">
+      <div class="section-title">Main</div>
+
+      <a href="{% url 'employer:dashboard' %}"
+         class="nav-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+        <span>Dashboard</span>
+        <span class="nav-badge">Now</span>
+      </a>
+
+      <a href="{% url 'employer:jobs' %}"
+         class="nav-item {% if request.resolver_match.url_name == 'jobs' %}active{% endif %}">
+        <span>Jobs</span>
+      </a>
+
+      <a href="{% url 'employer:candidates' %}"
+         class="nav-item {% if request.resolver_match.url_name == 'candidates' %}active{% endif %}">
+        <span>Candidates</span>
+      </a>
+
+      <a href="{% url 'employer:interviews' %}"
+         class="nav-item {% if request.resolver_match.url_name == 'interviews' %}active{% endif %}">
+        <span>Interviews</span>
+      </a>
+
+      <a href="{% url 'employer:analytics' %}"
+         class="nav-item {% if request.resolver_match.url_name == 'analytics' %}active{% endif %}">
+        <span>Analytics</span>
+      </a>
+
+      <a href="{% url 'employer:tools' %}"
+         class="nav-item {% if request.resolver_match.url_name == 'tools' %}active{% endif %}">
+        <span>Tools</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      Signed in as<br>
+      <span style="font-weight:500;">{{ request.user.username }}</span>
+    </div>
+  </aside>
+
+  <!-- Main area (Navbar + content) -->
+  <div class="employer-main">
+
+    <!-- NAVBAR العلوي مثل Indeed -->
+    <header class="employer-topbar">
+      <div class="topbar-left">
+        <span>Hirera</span>
+        <span class="separator">/</span>
+        <span class="topbar-page-title">
+          {% block topbar_title %}Employer workspace{% endblock %}
+        </span>
+      </div>
+
+      <div class="topbar-right">
+        <button type="button" class="topbar-link">Help</button>
+
+        <a href="#" class="topbar-link">Notifications</a>
+
+        <a href="#" class="topbar-link">Messages</a>
+
+        <div class="user-pill">
+          <div class="user-avatar">
+            {{ request.user.first_name|first|default:"H" }}
+          </div>
+          <div class="user-info">
+            <span class="user-name">
+              {{ request.user.get_full_name|default:"Hirera Employer" }}
+            </span>
+            <span class="user-role">Employer</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="employer-main-content">
+      {% block employer_content %}{% endblock %}
+    </main>
+
+  </div>
+
+</div>
+{% endblock %}
+

@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block container_class %}full-width{% endblock %}
+
+{% block content %}
+<div style="display:flex;min-height:calc(100vh - 70px);background:#f5f7fb;font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
+
+  <aside style="width:240px;background:#111827;color:#e5e7eb;padding:24px 16px;display:flex;flex-direction:column;gap:24px;">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <div style="width:32px;height:32px;border-radius:999px;background:#2563eb;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px;">H</div>
+      <div>
+        <div style="font-size:14px;opacity:.85;">Hirera</div>
+        <div style="font-size:12px;opacity:.6;">For Employers</div>
+      </div>
+    </div>
+    <nav style="display:flex;flex-direction:column;gap:4px;font-size:14px;">
+      <a href="#" style="padding:8px 10px;border-radius:8px;text-decoration:none;color:inherit;opacity:.9;">Dashboard</a>
+      <a href="#" style="padding:8px 10px;border-radius:8px;text-decoration:none;color:inherit;opacity:.9;">Jobs</a>
+      <a href="#" style="padding:8px 10px;border-radius:8px;background:#1f2937;text-decoration:none;color:inherit;">Candidates</a>
+    </nav>
+  </aside>
+
+  <main style="flex:1;padding:32px 40px;max-width:960px;margin:0 auto;">
+    <h1 style="font-size:26px;font-weight:700;margin-bottom:6px;">Candidates</h1>
+    <p style="font-size:14px;color:#4b5563;margin-bottom:24px;">
+      Review and manage applicants for your open jobs.
+    </p>
+
+    {% if applicants %}
+      <section style="background:#fff;border-radius:18px;padding:20px 22px;box-shadow:0 12px 24px rgba(15,23,42,.05);">
+        <table style="width:100%;border-collapse:collapse;font-size:13px;">
+          <thead>
+            <tr style="border-bottom:1px solid #e5e7eb;">
+              <th style="padding:8px 4px;text-align:left;">Name</th>
+              <th style="padding:8px 4px;text-align:left;">Job</th>
+              <th style="padding:8px 4px;text-align:left;">Status</th>
+              <th style="padding:8px 4px;text-align:right;">Applied</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for app in applicants %}
+            <tr style="border-bottom:1px solid #f3f4f6;">
+              <td style="padding:8px 4px;">{{ app.candidate_name }}</td>
+              <td style="padding:8px 4px;color:#6b7280;">{{ app.job_title }}</td>
+              <td style="padding:8px 4px;">
+                <span style="font-size:11px;padding:2px 8px;border-radius:999px;background:#eef2ff;color:#4338ca;">
+                  {{ app.status }}
+                </span>
+              </td>
+              <td style="padding:8px 4px;text-align:right;color:#6b7280;">{{ app.applied_at }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </section>
+    {% else %}
+      <section style="background:#fff;border-radius:18px;padding:40px 32px;box-shadow:0 12px 24px rgba(15,23,42,.05);text-align:center;">
+        <div style="font-size:70px;margin-bottom:8px;">🪴</div>
+        <h2 style="font-size:18px;font-weight:600;margin-bottom:6px;">No applicants available</h2>
+        <p style="font-size:14px;color:#4b5563;margin-bottom:18px;">
+          You don’t have any applicants yet. Post a job to start receiving candidates here.
+        </p>
+        <a href="#"
+           style="display:inline-block;padding:9px 22px;border-radius:999px;border:none;background:#2563eb;color:white;font-size:14px;font-weight:500;text-decoration:none;">
+          Post a job
+        </a>
+      </section>
+    {% endif %}
+  </main>
+</div>
+{% endblock %}

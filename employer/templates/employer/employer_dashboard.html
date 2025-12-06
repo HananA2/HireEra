@@ -1,0 +1,71 @@
+{% extends "employer/base_employer.html" %}
+
+{% block topbar_title %}Dashboard{% endblock %}
+
+{% block employer_content %}
+
+<section class="dashboard-intro">
+  <h1>Employer dashboard</h1>
+  <p>Manage your jobs, candidates and hiring activity in one place.</p>
+</section>
+
+<section class="dashboard-cards">
+  <div class="dashboard-card">
+    <div class="dashboard-card-label">Active jobs</div>
+    <div class="dashboard-card-value">3</div>
+  </div>
+  <div class="dashboard-card">
+    <div class="dashboard-card-label">New applicants</div>
+    <div class="dashboard-card-value">14</div>
+  </div>
+  <div class="dashboard-card">
+    <div class="dashboard-card-label">Interviews this week</div>
+    <div class="dashboard-card-value">2</div>
+  </div>
+</section>
+
+<section class="table-container">
+  <div class="table-header">
+    <h2>Recent jobs</h2>
+    <a href="#">View all jobs →</a>
+  </div>
+
+  <table class="jobs-table">
+    <thead>
+      <tr>
+        <th>Job title</th>
+        <th>Location</th>
+        <th>Status</th>
+        <th style="text-align:right;">Applicants</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Frontend Developer</td>
+        <td style="color:#6b7280;">Riyadh · Hybrid</td>
+        <td>
+          <span class="status-badge status-active">Active</span>
+        </td>
+        <td style="text-align:right;font-weight:600;">12</td>
+      </tr>
+      <tr>
+        <td>Backend Engineer</td>
+        <td style="color:#6b7280;">Jeddah · Remote</td>
+        <td>
+          <span class="status-badge status-draft">Draft</span>
+        </td>
+        <td style="text-align:right;font-weight:600;">0</td>
+      </tr>
+      <tr>
+        <td>Product Manager</td>
+        <td style="color:#6b7280;">Remote · KSA</td>
+        <td>
+          <span class="status-badge status-closed">Closed</span>
+        </td>
+        <td style="text-align:right;font-weight:600;">34</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+{% endblock %}
