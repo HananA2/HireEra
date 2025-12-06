@@ -1,3 +1,8 @@
 from django.urls import path
+from . import views
 
-urlpatterns = []
+app_name = "jobs"
+
+urlpatterns = [
+    path("search/", views.search_view, name="search"),
+]

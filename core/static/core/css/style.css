@@ -7,11 +7,14 @@
 body{
     font-family: 'Inter', sans-serif;
     background-color: var(--bg-light);
-    min-height: 100vh;
+    /* min-height: 100vh; */
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
-
+#page-wrapper {
+    min-height: calc(100vh - 120px); /* navbar + footer */
+}
 /* ===== Navbar tweaks ===== */
 .navbar {
     padding-top: 14px;
@@ -49,13 +52,13 @@ body{
  .search-box {
     width: 80%;
     max-width: 950px;
-    margin: 20px auto;
-    padding: 12px 20px;
+    margin: auto;
+    padding: 10px 14px;
     background: #fff;
     border: 1px solid var(--text-dark);
-    border-radius: 20px;
+    border-radius: 14px;
     display: flex;
-    gap: 30px;
+    gap: 20px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.05);
 }
 
@@ -69,7 +72,7 @@ body{
     width: 100%;
     border: none;
     outline: none;
-    font-size: 18px;
+    font-size: 16px;
     background: none;
 }
 
@@ -83,14 +86,14 @@ body{
 .clear-btn {
     border: none;
     background: none;
-    font-size: 20px;
+    font-size: 18px;
     color: #777;
     cursor: pointer;
 }
 
 .search-btn {
-    padding: 12px 25px;
-    border-radius: 18px;
+    padding: 8px 14px;
+    border-radius: 15px;
     font-weight: bold;
 }
 input.search-input::placeholder {
@@ -107,4 +110,10 @@ input.search-input::placeholder {
     width: 100%;
     height: 1px;
     background-color: #ddd;
+}
+
+@media (max-width: 768px) {
+    .nav-divider {
+        display: none !important;
+    }
 }

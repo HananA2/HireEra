@@ -1,3 +1,23 @@
 from django.db import models
+from django.contrib.auth.models import User
+from jobs.models import Job
 
-# Create your models here.
+class SavedJob(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    job = models.ForeignKey(Job, on_delete=models.CASCADE)
+    saved_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'job')  
+
+    def __str__(self):
+        return f"{self.user.username} saved {self.job.title}"
+
+
+class AppliedJob(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    job = models.ForeignKey(Job, on_delete=models.CASCADE)
+    applied_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} applied to {self.job.title}"

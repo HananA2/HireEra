@@ -18,8 +18,11 @@
             <!-- Left Side -->
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link active-link text-dark" href="/">Home</a>
-                </li>
+                    <a class="nav-link active-link text-dark"
+                       href="{% if user.is_authenticated %}{% url 'jobs:search' %}{% else %}/{% endif %}">
+                        Home
+                    </a>
+                </li>                
             </ul>
 
             <!-- Right Side -->
@@ -28,16 +31,24 @@
                 {% if user.is_authenticated %}
 
                     <li class="nav-item mx-2">
-                        <a class="nav-link" href="/seeker/saved-jobs/">
-                            <i class="fa-regular fa-bookmark fs-5"></i>
+                        <a href="{% url 'seeker:logout' %}" class="nav-link" title="Log out">
+                            <i class="fa-solid fa-right-from-bracket fs-5"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a href="{% url 'seeker:saved_jobs' %}" class="nav-link">
+                            <i class="fa-solid fa-bookmark fs-6"></i>
                         </a>
                     </li>
 
                     <li class="nav-item mx-2">
-                        <a class="nav-link" href="/seeker/profile/">
-                            <i class="fa-regular fa-user fs-5"></i>
+                        <a class="nav-link" href="{% url 'seeker:profile' %}">
+                            <i class="fa-solid fa-user fs-6"></i>
                         </a>
                     </li>
+                    
+                    <!-- Divider -->
+                    <div class="nav-divider"></div>
 
                     <!-- Employers -->
                     <li class="nav-item">
